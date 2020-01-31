@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.graduationproject.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.example.graduationproject.pojo.Order">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="received_info_id" jdbcType="INTEGER" property="receivedInfoId" />
+    <result column="order_state" jdbcType="SMALLINT" property="orderState" />
+    <result column="total_price" jdbcType="DOUBLE" property="totalPrice" />
+    <result column="order_number" jdbcType="INTEGER" property="orderNumber" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+</mapper>

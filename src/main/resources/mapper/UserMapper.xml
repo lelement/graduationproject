@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.graduationproject.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.example.graduationproject.pojo.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="phone_number" jdbcType="BIGINT" property="phoneNumber" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="sex" jdbcType="SMALLINT" property="sex" />
+    <result column="vip" jdbcType="SMALLINT" property="vip" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="mark" jdbcType="SMALLINT" property="mark" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.graduationproject.mapper.OrderItemMapper">
+  <resultMap id="BaseResultMap" type="com.example.graduationproject.pojo.OrderItem">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="mount" jdbcType="INTEGER" property="mount" />
+    <result column="item_total_price" jdbcType="DOUBLE" property="itemTotalPrice" />
+  </resultMap>
+
+</mapper>
