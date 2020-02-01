@@ -19,6 +19,23 @@ public class OrderResponse extends Order {
 
     private List<OrderItemResponse> list = new ArrayList<>();
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public ReceivedInfoResponse getReceivedInfo() {
+        return receivedInfo;
+    }
+
+    public void  setReceivedInfo(ReceivedInfoResponse receivedInfo) {
+        this.receivedInfo = receivedInfo;
+    }
+
+
     public List<OrderItemResponse> getList() {
         return list;
     }

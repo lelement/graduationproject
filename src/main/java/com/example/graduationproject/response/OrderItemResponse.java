@@ -14,5 +14,11 @@ import java.util.List;
 public class OrderItemResponse extends OrderItem {
     private Book book;
 
+    public Book getBook() {
+        return book;
+    }
 
+    public void setBook(Book book) {
+        this.book = book;
+    }
 }

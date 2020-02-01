@@ -74,19 +74,19 @@
         </javaClientGenerator>
         <!-- 指定数据库表 -->
 
-        <table tableName="t_user" domainObjectName="User">
+        <!--<table tableName="t_user" domainObjectName="User">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-       <!-- <table tableName="t_book" domainObjectName="Book">
+        <table tableName="t_book" domainObjectName="Book">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="t_book_kind" domainObjectName="BookKind">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <table tableName="t_comment" domainObjectName="Comment">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="t_order" domainObjectName="Order">
+        <!--<table tableName="t_order" domainObjectName="Order">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="t_order_item" domainObjectName="OrderItem">

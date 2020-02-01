@@ -82,9 +82,8 @@ public class OrderServiceImpl implements OrderService {
     public Integer updateOrder(OrderRequest orderRequest) {
         Order order = new Order();
         BeanUtils.copyProperties(orderRequest, order);
-        ReceivedInfo receivedInfo = orderRequest.getReceivedInfo();
         order.setCreateTime(new Date());
-        order.setReceivedInfoId(receivedInfo.getId());
+        order.setReceivedInfoId(orderRequest.getReceivedInfoId());
         return orderDao.updateOrder(order);
     }
 

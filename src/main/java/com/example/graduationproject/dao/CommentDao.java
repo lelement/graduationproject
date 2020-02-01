@@ -21,23 +21,10 @@ public class CommentDao {
         return commentMapper.insert(comment);
     }
 
-    public Integer delComment(Integer userId) {
-        Example example = new Example(Comment.class);
-        example.createCriteria()
-                .andEqualTo("userId",userId);
-        return commentMapper.deleteByExample(example);
-    }
-
     public Integer delCommentById(Integer id) {
         return commentMapper.deleteByPrimaryKey(id);
     }
 
-
-    public List<Comment> selComment(Integer bookId) {
-        Example example = new Example(Comment.class);
-        example.createCriteria().andEqualTo("bookId",bookId);
-        return commentMapper.selectByExample(example);
-    }
 
     public List<Comment> selectAll() {
         return commentMapper.selectAll();

@@ -1,7 +1,6 @@
 package com.example.graduationproject.service.impl;
 
 import com.example.graduationproject.dao.BookDao;
-import com.example.graduationproject.dao.OrderDao;
 import com.example.graduationproject.dao.OrderItemDao;
 import com.example.graduationproject.pojo.Book;
 import com.example.graduationproject.pojo.OrderItem;
@@ -63,7 +62,7 @@ public class BookServiceImpl implements BookService {
     }
 
     /**
-    根据书名或者作者姓名查询相关书籍
+     * 根据书名或者作者姓名查询相关书籍
      */
     @Override
     public List<Book> selBook(String name,Integer pageNumber,Integer pageSize) {

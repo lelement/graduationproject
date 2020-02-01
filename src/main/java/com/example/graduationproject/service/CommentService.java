@@ -1,8 +1,6 @@
 package com.example.graduationproject.service;
 
-import com.example.graduationproject.pojo.Comment;
-import com.example.graduationproject.pojo.Order;
-import com.example.graduationproject.request.AddCommentRequest;
+import com.example.graduationproject.response.CommentResponse;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ public interface CommentService {
 
     Integer deleteCommentById(Integer id);
 
-    List<Comment> selAllComment(Integer pageNumber, Integer pageSize);
+    List<CommentResponse> selAllComment(Integer pageNumber, Integer pageSize);
 
-    List<Comment> getCommentByBookId(Integer bookId, Integer pageNumber, Integer pageSize);
+    
 }

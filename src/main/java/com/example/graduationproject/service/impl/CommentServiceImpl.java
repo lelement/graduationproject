@@ -1,15 +1,13 @@
 package com.example.graduationproject.service.impl;
+import	java.util.ArrayList;
 
 
-import com.example.graduationproject.dao.CommentDao;
+import com.example.graduationproject.dao.*;
+import com.example.graduationproject.pojo.Book;
 import com.example.graduationproject.pojo.Comment;
-import com.example.graduationproject.pojo.Order;
-import com.example.graduationproject.pojo.UserOrderCommentShip;
-import com.example.graduationproject.request.AddCommentRequest;
+import com.example.graduationproject.pojo.User;
+import com.example.graduationproject.response.CommentResponse;
 import com.example.graduationproject.service.CommentService;
-import com.example.graduationproject.service.UserOrderCommentShipService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,27 +27,37 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     CommentDao commentDao;
     @Autowired
-    UserOrderCommentShipService userOrderCommentShipService;
+    private BookDao bookDao;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private OrderDao orderDao;
+    @Autowired
+    private OrderItemDao orderItemDao;
 
 
+    @Transactional
     @Override
     public Integer deleteCommentById(Integer id) {
         return commentDao.delCommentById(id);
     }
 
     @Override
-    public List<Comment> selAllComment(Integer pageNumber, Integer pageSize) {
-        PageHelper.startPage(pageNumber,pageSize);
-        List<Comment> list = commentDao.selectAll();
-        PageInfo<Comment> pageInfo = new PageInfo<>(list);
-        return pageInfo.getList();
+    public List<CommentResponse> selAllComment(Integer pageNumber, Integer pageSize) {
+        List<CommentResponse> commentResponseList = new ArrayList<>();
+        List<Comment> comments = commentDao.selectAll();
+        for (Comment comment:comments){
+            CommentResponse commentResponse = new CommentResponse();
+            BeanUtils.copyProperties(comment,commentResponse);
+            Book book = bookDao.selBookById(comment.getBookId());
+            User user = userDao.selectUserById(comment.getUserId());
+            commentResponse.setBook(book);
+            commentResponse.setPhoneNumer(user.getPhoneNumber());
+            commentResponse.setImgUrl(user.getImgUrl());
+            commentResponseList.add(commentResponse);
+        }
+        return commentResponseList;
     }
 
-    @Override
-    public List<Comment> getCommentByBookId(Integer bookId, Integer pageNumber, Integer pageSize) {
-        PageHelper.startPage(pageNumber,pageSize);
-        List<Comment> list = commentDao.getCommentByBookId(bookId);
-        PageInfo<Comment> pageInfo = new PageInfo<>(list);
-        return pageInfo.getList();
-    }
+
 }
