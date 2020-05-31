@@ -25,12 +25,11 @@ public class CommentDao {
         return commentMapper.deleteByPrimaryKey(id);
     }
 
-
     public List<Comment> selectAll() {
         return commentMapper.selectAll();
     }
 
-    public List<Comment> getCommentByBookId(Integer bookId) {
+    public List<Comment> selComment(Integer bookId) {
         Example example = new Example(Comment.class);
         example.createCriteria().andEqualTo("bookId",bookId);
         return commentMapper.selectByExample(example);

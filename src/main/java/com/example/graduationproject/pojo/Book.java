@@ -20,6 +20,9 @@ public class Book {
     @Column(name = "create_time")
     private Date createTime;
 
+    /**
+     * 书库中剩余数量
+     */
     private Integer mount;
 
     @Column(name = "img_url")
@@ -29,6 +32,12 @@ public class Book {
     private Integer bookKindId;
 
     private String production;
+
+    /**
+     * 销售数量
+     */
+    @Column(name = "sale_mount")
+    private Integer saleMount;
 
     /**
      * @return id
@@ -101,14 +110,18 @@ public class Book {
     }
 
     /**
-     * @return mount
+     * 获取书库中剩余数量
+     *
+     * @return mount - 书库中剩余数量
      */
     public Integer getMount() {
         return mount;
     }
 
     /**
-     * @param mount
+     * 设置书库中剩余数量
+     *
+     * @param mount 书库中剩余数量
      */
     public void setMount(Integer mount) {
         this.mount = mount;
@@ -154,5 +167,30 @@ public class Book {
      */
     public void setProduction(String production) {
         this.production = production == null ? null : production.trim();
+    }
+
+
+    public Integer getSaleMount() {
+        return saleMount;
+    }
+
+    public void setSaleMount(Integer saleMount) {
+        this.saleMount = saleMount;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", bookName='" + bookName + '\'' +
+                ", price=" + price +
+                ", writerName='" + writerName + '\'' +
+                ", createTime=" + createTime +
+                ", mount=" + mount +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", bookKindId=" + bookKindId +
+                ", production='" + production + '\'' +
+                ", saleMount=" + saleMount +
+                '}';
     }
 }

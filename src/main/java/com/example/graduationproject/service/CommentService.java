@@ -1,8 +1,9 @@
 package com.example.graduationproject.service;
 
-import com.example.graduationproject.response.CommentResponse;
-
-import java.util.List;
+import com.example.graduationproject.request.AddCommentRequest;
+import com.example.graduationproject.request.CommentRequest;
+import com.example.graduationproject.request.SelectAllCommentRequest;
+import com.example.graduationproject.response.CommentResponseList;
 
 /**
  * @Author:Fengxutong
@@ -11,10 +12,11 @@ import java.util.List;
  */
 
 public interface CommentService {
+    Integer addComment(AddCommentRequest addCommentRequest);
 
     Integer deleteCommentById(Integer id);
 
-    List<CommentResponse> selAllComment(Integer pageNumber, Integer pageSize);
+    CommentResponseList selComment(Integer bookId,Integer pageNumber,Integer size);
 
-    
+    CommentResponseList selAllComment(Integer pageNumber,Integer size );
 }

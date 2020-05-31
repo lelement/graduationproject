@@ -1,27 +1,29 @@
 package com.example.graduationproject.response;
 
 import com.example.graduationproject.pojo.Book;
-import com.example.graduationproject.pojo.Order;
 import com.example.graduationproject.pojo.User;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
- * Created by lemon on 2020-01-31 0:31.
+ * @Author:Fengxutong
+ * @Date:2020/1/31
+ * @Description:小冯同学写点注释吧！
  */
 @Data
 public class CommentResponse {
     private Integer id;
 
-    private String imgUrl;
+    private String content;
 
-    private Long phoneNumer;
+    /**
+     * 评论时间
+     **/
+    private String createTime;
+
+    private Integer bookId;
 
     private Book book;
 
-    private String content;
-
-    private Date createTime;
+    private User user;
 
 }

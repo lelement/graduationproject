@@ -2,7 +2,7 @@ package com.example.graduationproject.request;
 
 import lombok.Data;
 
-import javax.persistence.Column;
+import java.util.Date;
 
 /**
  * @Author:Fengxutong
@@ -11,12 +11,13 @@ import javax.persistence.Column;
  */
 @Data
 public class AddCommentRequest {
+
     private Integer userId;
 
     private Integer bookId;
 
-    private Integer orderItemId;
-
     private String content;
+
+    private Integer orderId;
 
 }

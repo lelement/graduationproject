@@ -15,8 +15,8 @@ public class Comment {
     @Column(name = "book_id")
     private Integer bookId;
 
-    @Column(name = "order_item_id")
-    private Integer orderItemId;
+    @Column(name = "order_id")
+    private Integer orderId;
 
     private String content;
 
@@ -66,17 +66,17 @@ public class Comment {
     }
 
     /**
-     * @return order_item_id
+     * @return order_id
      */
-    public Integer getOrderItemId() {
-        return orderItemId;
+    public Integer getOrderId() {
+        return orderId;
     }
 
     /**
-     * @param orderItemId
+     * @param orderId
      */
-    public void setOrderItemId(Integer orderItemId) {
-        this.orderItemId = orderItemId;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     /**

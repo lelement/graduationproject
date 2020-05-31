@@ -21,11 +21,13 @@ public class User {
     private Date createTime;
 
     private Integer age;
-
+    /**
+     * 男--0      女-1
+     */
     private Short sex;
 
     /**
-     * 会员-1 非会员-0
+     * 非会员-0 会员-1
 
      */
     private Short vip;
@@ -34,7 +36,7 @@ public class User {
     private String imgUrl;
 
     /**
-     * 用户-0 管理员-1
+     * 用户-0    管理员-1
      */
     private Short mark;
 
@@ -126,24 +128,28 @@ public class User {
     }
 
     /**
-     * @return sex
+     * 获取男--0      女-1
+     *
+     * @return sex - 男--0      女-1
      */
     public Short getSex() {
         return sex;
     }
 
     /**
-     * @param sex
+     * 设置男--0      女-1
+     *
+     * @param sex 男--0      女-1
      */
     public void setSex(Short sex) {
         this.sex = sex;
     }
 
     /**
-     * 获取会员-1 非会员-0
+     * 获取非会员-0 会员-1
 
      *
-     * @return vip - 会员-1 非会员-0
+     * @return vip - 非会员-0 会员-1
 
      */
     public Short getVip() {
@@ -151,10 +157,10 @@ public class User {
     }
 
     /**
-     * 设置会员-1 非会员-0
+     * 设置非会员-0 会员-1
 
      *
-     * @param vip 会员-1 非会员-0
+     * @param vip 非会员-0 会员-1
 
      */
     public void setVip(Short vip) {
@@ -176,18 +182,18 @@ public class User {
     }
 
     /**
-     * 获取用户-0 管理员-1
+     * 获取用户-0    管理员-1
      *
-     * @return mark - 用户-0 管理员-1
+     * @return mark - 用户-0    管理员-1
      */
     public Short getMark() {
         return mark;
     }
 
     /**
-     * 设置用户-0 管理员-1
+     * 设置用户-0    管理员-1
      *
-     * @param mark 用户-0 管理员-1
+     * @param mark 用户-0    管理员-1
      */
     public void setMark(Short mark) {
         this.mark = mark;

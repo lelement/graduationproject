@@ -25,8 +25,11 @@ public class BookDao {
         return bookMapper.insert(book);
     }
 
-    public Integer addBookList(List<Book> books){
-        return bookMapper.insertList(books);
+    public Integer deleteBookByIds(List<Integer> ids) {
+        Example example = new Example(Book.class);
+        example.createCriteria()
+                .andIn("id",ids);
+        return bookMapper.deleteByExample(example);
     }
 
     /**
@@ -45,8 +48,9 @@ public class BookDao {
 
     public List<Book> selBook(String name) {
         Example bookExample = new Example(Book.class);
-        bookExample.createCriteria().andLike("bookName","%"+name+"%");
-        bookExample.createCriteria().andLike("writerName","%"+name+"%");
+        bookExample.createCriteria()
+                .andLike("bookName","%"+name+"%")
+                .orLike("writerName","%"+name+"%");
         return bookMapper.selectByExample(bookExample);
     }
 
@@ -59,12 +63,7 @@ public class BookDao {
         return bookMapper.selectByExample(bookExample);
     }
 
-    public Integer deleteBookByIds(List<Integer> ids) {
-        Example example = new Example(Book.class);
-        example.createCriteria()
-                .andIn("id",ids);
-        return bookMapper.deleteByExample(example);
-    }
+
 
     public List<Book> selectAllBook() {
         return bookMapper.selectAll();
@@ -72,5 +71,23 @@ public class BookDao {
 
     public Book selBookById(Integer bookId) {
         return bookMapper.selectByPrimaryKey(bookId);
+    }
+
+    public List<Book> selectBookByBookKindId(Integer bookKindId) {
+        Example example = new Example(Book.class);
+        example.createCriteria()
+                .andEqualTo("bookKindId",bookKindId);
+        return bookMapper.selectByExample(example);
+    }
+
+    public Book selectBookByBookId(Integer bookId){
+        return bookMapper.selectByPrimaryKey(bookId);
+    }
+
+    public List<Book> selectBookByMount(Integer mount) {
+        Example example = new Example(Book.class);
+        example.createCriteria()
+                .andEqualTo("mount",mount);
+        return bookMapper.selectByExample(example);
     }
 }

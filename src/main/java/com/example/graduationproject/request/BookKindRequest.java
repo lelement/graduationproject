@@ -9,9 +9,6 @@ import lombok.Data;
  */
 @Data
 public class BookKindRequest {
-    private Integer id;
+    private Integer kindId;
 
-    private String kindName;
-
-    private Integer bookId;
 }

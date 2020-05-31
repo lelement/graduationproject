@@ -18,37 +18,55 @@ public class UserDao {
     @Autowired
     UserMapper userMapper;
 
-    public List<User> selectAll(Integer mark) {
+    public Integer addUser(User user) {
+        return userMapper.insert(user);
+    }
+
+    public List<User> login(Long phoneNumber,String password) {
+        Example example = new Example(User.class);
+        example.createCriteria().andEqualTo("phoneNumber",phoneNumber)
+                .andEqualTo("password",password);
+        return userMapper.selectByExample(example);
+    }
+
+    public Integer delUser(Integer id) {
+        return userMapper.deleteByPrimaryKey(id);
+    }
+
+    public Integer updUser(User user) {
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    public List<User> selectAll(Short mark) {
         Example example = new Example(User.class);
         example.createCriteria()
                 .andEqualTo("mark",mark);
         return userMapper.selectByExample(example);
     }
 
-    public Integer addUser(User user) {
-        return userMapper.insert(user);
+    public User getUserById(Integer userID) {
+        /*Example example = new Example(User.class);
+        example.createCriteria()
+                .andEqualTo("id",userID);
+        return userMapper.selectByExample(example).get(0);*/
+        return userMapper.selectByPrimaryKey(userID);
     }
 
-    public Integer deleteUserById(Integer id) {
-        return userMapper.deleteByPrimaryKey(id);
-    }
-
-    public Integer deleteUserByIds(List<Integer> ids) {
+    public List<User> exist(Long phoneNumber) {
         Example example = new Example(User.class);
         example.createCriteria()
-                .andIn("id",ids);
-        return userMapper.deleteByExample(example);
+                .andEqualTo("phoneNumber",phoneNumber);
+        return userMapper.selectByExample(example);
     }
 
-    public Integer updateUser(User user) {
-        return userMapper.updateByPrimaryKeySelective(user);
+    public List<User> selectAllUser() {
+        return userMapper.selectAll();
     }
 
-    public List<User> select(User user) {
-        return userMapper.select(user);
-    }
-
-    public User selectUserById(Integer userId) {
-        return userMapper.selectByPrimaryKey(userId);
+    public List<User> selectUserByKeyword(String keyword) {
+        Example example = new Example(User.class);
+        example.createCriteria()
+                .andLike("nickName","%"+keyword+"%");
+        return userMapper.selectByExample(example);
     }
 }

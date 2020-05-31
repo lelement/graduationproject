@@ -1,137 +1,185 @@
 package com.example.graduationproject.service.impl;
 
+import com.example.graduationproject.common.Constant;
 import com.example.graduationproject.dao.*;
+import com.example.graduationproject.dto.OrderDto;
 import com.example.graduationproject.pojo.*;
-import com.example.graduationproject.request.OrderRequest;
-import com.example.graduationproject.response.OrderItemResponse;
+import com.example.graduationproject.request.*;
 import com.example.graduationproject.response.OrderResponse;
-import com.example.graduationproject.response.ReceivedInfoResponse;
-import com.example.graduationproject.service.OrderService;
+import com.example.graduationproject.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Created by lemon on 2020-01-30 20:08.
+ * @Author:Fengxutong
+ * @Date:2020/1/6
+ * @Description:小冯同学写点注释吧！
  */
 @Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDao orderDao;
     @Autowired
-    private OrderItemDao orderItemDao;
+    private UserService userService;
     @Autowired
-    private OrderShipDao orderShipDao;
+    private BookService bookService;
     @Autowired
     private BookDao bookDao;
     @Autowired
     private UserDao userDao;
     @Autowired
+    private ReceivedInfoService receivedInfoService;
+    @Autowired
     private ReceivedInfoDao receivedInfoDao;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public List<OrderResponse> selectAll(Integer pageNumber, Integer pageSize) {
-        PageHelper.startPage(pageNumber, pageSize);
-        List<OrderResponse> orderResponseList = new ArrayList<>();
-        List<Order> orderList = orderDao.selectAll();
-        for (int i = 0; i < orderList.size(); i++) {
-            OrderResponse orderResponse = new OrderResponse();
-            Integer orderId = orderList.get(i).getId();
-            BeanUtils.copyProperties(orderList.get(i), orderResponse);
-            User user = userDao.selectUserById(orderList.get(i).getUserId());
-            ReceivedInfo receivedInfo = receivedInfoDao.selectById(orderList.get(i).getReceivedInfoId());
-            ReceivedInfoResponse receivedInfoResponse = new ReceivedInfoResponse();
-            if (receivedInfo != null)
-                BeanUtils.copyProperties(receivedInfo, receivedInfoResponse);
-            else
-                break;
-            List<OrderShip> orderShipList = orderShipDao.selectOrderItemIdByOrderId(orderId);
-            List<OrderItemResponse> orderItemResponseList = new ArrayList<>();
-            for (OrderShip orderShip : orderShipList) {
-                Integer orderItemId = orderShip.getOrderItemId();
-                List<OrderItem> orderItemList = orderItemDao.selectOrderItemByOrderItemId(orderItemId);
-                OrderItemResponse orderItemResponse = new OrderItemResponse();
-                for (OrderItem orderItem : orderItemList) {
-                    BeanUtils.copyProperties(orderItem, orderItemResponse);
-                    Book book = bookDao.selBookById(orderItem.getBookId());
-                    orderItemResponse.setId(orderShip.getOrderItemId());
-                    orderItemResponse.setBook(book);
-                    orderItemResponse.setMount(orderItem.getMount());
-                    orderItemResponse.setItemTotalPrice(orderItem.getItemTotalPrice());
-                    orderItemResponseList.add(orderItemResponse);
-                    orderResponse.add(orderItemResponse);
-                }
-            }
-            orderResponse.setList(orderItemResponseList);
-            orderResponse.setUser(user);
-            orderResponse.setReceivedInfo(receivedInfoResponse);
-            orderResponseList.add(orderResponse);
-        }
-        PageInfo<OrderResponse> pageInfo = new PageInfo<>(orderResponseList);
-        return pageInfo.getList();
-    }
-
-    @Override
-    public Integer updateOrder(OrderRequest orderRequest) {
+    public Integer addOrder(AddOrderRequest addOrderRequest) {
+        Book book = bookDao.selBookById(addOrderRequest.getBookId());
+        book.setMount(book.getMount() - addOrderRequest.getBookMount());
+        book.setSaleMount(book.getSaleMount() + addOrderRequest.getBookMount());
+        bookDao.updBook(book);
         Order order = new Order();
-        BeanUtils.copyProperties(orderRequest, order);
+        BeanUtils.copyProperties(addOrderRequest, order);
         order.setCreateTime(new Date());
-        order.setReceivedInfoId(orderRequest.getReceivedInfoId());
-        return orderDao.updateOrder(order);
+        order.setUpdateTime(new Date());
+        return orderDao.addOrder(order);
     }
 
-    @Transactional
     @Override
     public Integer deleteOrderById(Integer orderId) {
-        List<OrderShip> orderShipList = orderShipDao.selectOrderItemIdByOrderId(orderId);
-        List<Integer> orderShipIds = new ArrayList<>();
-        List<Integer> orderItemIds = new ArrayList<>();
-        Integer res = null;
-        for (OrderShip orderShip : orderShipList) {
-            orderShipIds.add(orderShip.getId());
-            orderItemIds.add(orderShip.getOrderItemId());
-        }
-        res = orderShipDao.deleteOrderShipByIds(orderShipIds);
-        res = orderItemDao.deleteOrderItemByIds(orderItemIds);
-        res = orderDao.deleteOrderById(orderId);
-        return res;
+        return orderDao.deleteOrderById(orderId);
     }
 
     @Override
-    public OrderResponse selectByOrderId(Integer orderId) {
-        OrderResponse orderResponse = new OrderResponse();
-        Order order =  orderDao.selectById(orderId);
-        BeanUtils.copyProperties(order,orderResponse);
-        User user = userDao.selectUserById(order.getUserId());
-        orderResponse.setUser(user);
-        ReceivedInfoResponse receivedInfoResponse = new ReceivedInfoResponse();
-        ReceivedInfo receivedInfo = receivedInfoDao.selectById(order.getReceivedInfoId());
-        if (receivedInfo != null)
-            BeanUtils.copyProperties(receivedInfo, receivedInfoResponse);
-        orderResponse.setReceivedInfo(receivedInfoResponse);
-        List<OrderShip> orderShipList = orderShipDao.selectOrderItemIdByOrderId(orderId);
-        List<OrderItemResponse> itemResponseList = new ArrayList<>();
-        for (OrderShip orderShip:orderShipList){
-            Integer orderItemId = orderShip.getOrderItemId();
-            List<OrderItem> orderItemList = orderItemDao.selectOrderItemByOrderItemId(orderItemId);
-            for (OrderItem orderItem:orderItemList){
-                OrderItemResponse orderItemResponse = new OrderItemResponse();
-                BeanUtils.copyProperties(orderItem,orderItemResponse);
-                Integer bookId = orderItem.getBookId();
-                Book book = bookDao.selBookById(bookId);
-                orderItemResponse.setBook(book);
-                itemResponseList.add(orderItemResponse);
-            }
-
+    public Integer updOrderItem(OrderDto orderDto) {
+        Order order = new Order();
+        BeanUtils.copyProperties(orderDto, order);
+        if (orderDto.getExpressNum()!=null) {
+            stringRedisTemplate.opsForValue().set(order.getId().toString(), orderDto.getExpressNum(), 30, TimeUnit.DAYS);
         }
-        orderResponse.setList(itemResponseList);
-        return orderResponse;
+        return orderDao.updOrder(order);
+    }
+
+    /**
+     * 读者根据userId查询不同支付状态下的所有订单
+     *
+     * @return
+     */
+    @Override
+    public OrderResponseList selOrder(Integer userId, Short orderState, Integer pageNumber, Integer pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        OrderResponseList orderResponseList = new OrderResponseList();
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        List<Order> orderList = orderDao.getOrderByUserIdAndStatus(userId, orderState);
+        PageInfo<Order> pageInfo = new PageInfo<>(orderList);
+        for (Order order : pageInfo.getList()) {
+            OrderResponse orderResponse = new OrderResponse();
+            orderResponse.setBook(bookDao.selBookById(order.getBookId()));
+            orderResponse.setExpressNum(stringRedisTemplate.opsForValue().get(order.getId().toString()));
+            ReceivedInfo receivedInfo = receivedInfoDao.selectById(order.getReceivedInfoId());
+            orderResponse.setReceivedInfo(receivedInfo);
+            orderResponse.setUser(userDao.getUserById(order.getUserId()));
+            BeanUtils.copyProperties(order, orderResponse);
+            orderResponses.add(orderResponse);
+        }
+        orderResponseList.setOrderResponseList(orderResponses);
+        orderResponseList.setTotal(pageInfo.getTotal());
+        return orderResponseList;
+    }
+
+    @Override
+    public OrderResponseList selUserReceivedInfoByUserId(Integer userId, Integer pageNumber, Integer pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        OrderResponseList orderResponseList = new OrderResponseList();
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        List<Order> orderList = orderDao.selOrder(userId);
+        PageInfo<Order> pageInfo = new PageInfo<>(orderList);
+        for (Order order : pageInfo.getList()) {
+            OrderResponse orderResponse = new OrderResponse();
+            BeanUtils.copyProperties(order, orderResponse);
+            orderResponse.setBook(bookDao.selBookById(order.getBookId()));
+            orderResponse.setExpressNum(stringRedisTemplate.opsForValue().get(order.getId().toString()));
+            ReceivedInfo receivedInfo = receivedInfoDao.selectById(order.getReceivedInfoId());
+            orderResponse.setReceivedInfo(receivedInfo);
+            orderResponses.add(orderResponse);
+        }
+        orderResponseList.setOrderResponseList(orderResponses);
+        orderResponseList.setTotal(pageInfo.getTotal());
+        return orderResponseList;
+    }
+
+    @Override
+    public OrderResponseList selectAllOrders(Short orderState,Integer pageNumber, Integer pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        OrderResponseList orderResponseList = new OrderResponseList();
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        List<Order> orderList = null;
+        if (Constant.ALL_ORDER_STATUS.equals(orderState)) {
+            orderList = orderDao.selectAllOrders();
+        }else {
+            orderList = orderDao.selectAll(orderState);
+        }
+        PageInfo<Order> pageInfo = new PageInfo<>(orderList);
+        for (Order order : pageInfo.getList()) {
+            OrderResponse orderResponse = new OrderResponse();
+            BeanUtils.copyProperties(order, orderResponse);
+            orderResponse.setUser(userDao.getUserById(order.getUserId()));
+            orderResponse.setBook(bookDao.selBookById(order.getBookId()));
+            orderResponse.setExpressNum(stringRedisTemplate.opsForValue().get(order.getId().toString()));
+            ReceivedInfo receivedInfo = receivedInfoDao.selectById(order.getReceivedInfoId());
+            orderResponse.setReceivedInfo(receivedInfo);
+            orderResponses.add(orderResponse);
+        }
+        orderResponseList.setOrderResponseList(orderResponses);
+        orderResponseList.setTotal(pageInfo.getTotal());
+        return orderResponseList;
+    }
+
+    @Override
+    public OrderResponseList selectAll(Short orderState, Integer pageNumber, Integer pageSize) {
+        List<Order> orderList = orderDao.selectAll(orderState);
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        PageInfo<Order> pageInfo = new PageInfo<>(orderList);
+        for (Order order : pageInfo.getList()) {
+            OrderResponse orderResponse = new OrderResponse();
+            BeanUtils.copyProperties(order, orderResponse);
+            orderResponse.setUser(userDao.getUserById(order.getUserId()));
+            orderResponse.setBook(bookDao.selBookById(order.getBookId()));
+            orderResponse.setExpressNum(stringRedisTemplate.opsForValue().get(order.getId().toString()));
+            ReceivedInfo receivedInfo = receivedInfoDao.selectById(order.getReceivedInfoId());
+            orderResponse.setReceivedInfo(receivedInfo);
+            orderResponses.add(orderResponse);
+        }
+        OrderResponseList orderResponseList = new OrderResponseList();
+        orderResponseList.setOrderResponseList(orderResponses);
+        orderResponseList.setTotal(pageInfo.getTotal());
+        return orderResponseList;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Integer cancleOrder(CancleOrderReuquest cancleOrderReuquest) {
+        Book book = bookDao.selBookById(cancleOrderReuquest.getBookId());
+        book.setMount(book.getMount() + cancleOrderReuquest.getBookMount());
+        book.setSaleMount(book.getSaleMount() - cancleOrderReuquest.getBookMount());
+        bookDao.updBook(book);
+        Order order = new Order();
+        order.setId(cancleOrderReuquest.getId());
+        order.setOrderState(Constant.CANCLE_ORDER);
+        return orderDao.updOrder(order);
     }
 }

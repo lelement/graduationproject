@@ -21,21 +21,26 @@ public class ShopCarDao {
         return shopCarMapper.insert(shopCar);
     }
 
-    public Integer delShopCar(Integer bookId) {
+    public Integer delShopCar(Integer bookId,Integer userId) {
         Example example = new Example(ShopCar.class);
-        example.createCriteria().andEqualTo("bookId",bookId);
+        example.createCriteria().andEqualTo("bookId",bookId)
+        .andEqualTo("userId",userId);
         return shopCarMapper.deleteByExample(example);
     }
 
     public Integer updShopCar(ShopCar shopCar) {
-        Example example = new Example(ShopCar.class);
-        example.createCriteria().andEqualTo("mount",shopCar.getMount());
-        return shopCarMapper.updateByExampleSelective(shopCar,example);
+        return shopCarMapper.updateByPrimaryKeySelective(shopCar);
     }
 
     public List<ShopCar> selShopCar(Integer userId) {
         Example example = new Example(ShopCar.class);
         example.createCriteria().andEqualTo("userId",userId);
+        return shopCarMapper.selectByExample(example);
+    }
+
+    public List<ShopCar> selectShopCarByIds(List<Integer> ids) {
+        Example example = new Example(ShopCar.class);
+        example.createCriteria().andIn("id",ids);
         return shopCarMapper.selectByExample(example);
     }
 }

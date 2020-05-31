@@ -1,14 +1,17 @@
 package com.example.graduationproject.service.impl;
 
+import com.example.graduationproject.dao.BookDao;
 import com.example.graduationproject.dao.BookKindDao;
-import com.example.graduationproject.pojo.Book;
+import com.example.graduationproject.dto.BookKindDto;
 import com.example.graduationproject.pojo.BookKind;
 import com.example.graduationproject.request.AddBookKindRequest;
+import com.example.graduationproject.response.BookKindResponse;
 import com.example.graduationproject.service.BookKindService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +22,9 @@ import java.util.List;
 @Service
 public class BookKindServiceImpl implements BookKindService {
     @Autowired
-    BookKindDao bookKindDao;
+    private BookKindDao bookKindDao;
+    @Autowired
+    private BookDao bookDao;
     @Override
     public Integer addBookKind(AddBookKindRequest addBookKindRequest) {
         BookKind bookKind = new BookKind();
@@ -39,8 +44,17 @@ public class BookKindServiceImpl implements BookKindService {
     }
 
     @Override
-    public List<BookKind> selectAllBookKind() {
-        return bookKindDao.selectAll();
+    public BookKindResponse selectAllBookKind() {
+        List<BookKind> bookKinds = bookKindDao.selectAll();
+        List<BookKindDto> bookKindDtoList = new ArrayList<>();
+        for(BookKind bookKind:bookKinds){
+            BookKindDto bookKindDto = new BookKindDto();
+            BeanUtils.copyProperties(bookKind,bookKindDto);
+            bookKindDto.setBookKindUrl(bookDao.selectBookByBookKindId(bookKind.getId()).get(0).getImgUrl());
+            bookKindDtoList.add(bookKindDto);
+        }
+        BookKindResponse bookKindResponse = new BookKindResponse();
+        bookKindResponse.setBookKindList(bookKindDtoList);
+        return bookKindResponse;
     }
-
-    }
+}

@@ -10,8 +10,9 @@
     <result column="received_info_id" jdbcType="INTEGER" property="receivedInfoId" />
     <result column="order_state" jdbcType="SMALLINT" property="orderState" />
     <result column="total_price" jdbcType="DOUBLE" property="totalPrice" />
-    <result column="order_number" jdbcType="INTEGER" property="orderNumber" />
+    <result column="book_mount" jdbcType="INTEGER" property="bookMount" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
   </resultMap>
 </mapper>

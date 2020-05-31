@@ -1,50 +1,44 @@
 package com.example.graduationproject.response;
 
+import com.example.graduationproject.pojo.Book;
 import com.example.graduationproject.pojo.Order;
 import com.example.graduationproject.pojo.ReceivedInfo;
 import com.example.graduationproject.pojo.User;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by lemon on 2020-01-30 16:11.
  */
 @Data
-public class OrderResponse extends Order {
+public class OrderResponse {
+    private Integer id;
+
+    private Integer userId;
+
+    private Integer receivedInfoId;
+
+    private Integer bookId;
+
+    private Integer bookMount;
+
+    private Short orderState;
+
+    private Double totalPrice;
+
+    private Date createTime;
+
+    private Book book;
+
+    private ReceivedInfo receivedInfo;
+
     private User user;
-
-    private ReceivedInfoResponse receivedInfo;
-
-    private List<OrderItemResponse> list = new ArrayList<>();
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public ReceivedInfoResponse getReceivedInfo() {
-        return receivedInfo;
-    }
-
-    public void  setReceivedInfo(ReceivedInfoResponse receivedInfo) {
-        this.receivedInfo = receivedInfo;
-    }
+    @ApiModelProperty(value = "订单号")
+    private String expressNum;
 
 
-    public List<OrderItemResponse> getList() {
-        return list;
-    }
-
-    public void setList(List<OrderItemResponse> list) {
-        this.list = list;
-    }
-
-    public void add(OrderItemResponse orderItemResponse) {
-        this.list.add(orderItemResponse);
-    }
 }

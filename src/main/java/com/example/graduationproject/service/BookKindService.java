@@ -1,10 +1,8 @@
 package com.example.graduationproject.service;
 
-import com.example.graduationproject.pojo.Book;
 import com.example.graduationproject.pojo.BookKind;
 import com.example.graduationproject.request.AddBookKindRequest;
-
-import java.util.List;
+import com.example.graduationproject.response.BookKindResponse;
 
 /**
  * @Author:Fengxutong
@@ -22,6 +20,5 @@ public interface BookKindService {
 
     Integer updBookKind(BookKind bookKind);
 
-
-    List<BookKind> selectAllBookKind();
+    BookKindResponse selectAllBookKind();
 }

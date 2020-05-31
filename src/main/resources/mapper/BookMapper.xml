@@ -14,5 +14,6 @@
     <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
     <result column="book_kind_id" jdbcType="INTEGER" property="bookKindId" />
     <result column="production" jdbcType="VARCHAR" property="production" />
+    <result column="sale_mount" jdbcType="INTEGER" property="saleMount" />
   </resultMap>
 </mapper>

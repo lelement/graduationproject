@@ -11,9 +11,8 @@ public class ReceivedInfoResponse {
 
     private String name;
 
-    private Long phone;
+    private Long phoneNumber;
 
     private String address;
-
 
 }

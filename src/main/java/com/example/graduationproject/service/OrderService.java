@@ -1,19 +1,30 @@
 package com.example.graduationproject.service;
 
-import com.example.graduationproject.request.OrderRequest;
+import com.example.graduationproject.dto.OrderDto;
+import com.example.graduationproject.pojo.Order;
+import com.example.graduationproject.request.*;
 import com.example.graduationproject.response.OrderResponse;
-
-import java.util.List;
+import io.swagger.models.auth.In;
 
 /**
- * Created by lemon on 2020-01-30 20:07.
+ * @Author:Fengxutong
+ * @Date:2020/1/6
+ * @Description:小冯同学写点注释吧！
  */
 public interface OrderService {
-    List<OrderResponse> selectAll(Integer pageNumber, Integer pageSize);
-
-    Integer updateOrder(OrderRequest orderRequest);
+    Integer addOrder(AddOrderRequest addOrderRequest);
 
     Integer deleteOrderById(Integer orderId);
 
-    OrderResponse selectByOrderId(Integer orderId);
+    Integer updOrderItem(OrderDto order);
+
+    OrderResponseList selOrder(Integer userId,Short orderState,Integer pageNumber,Integer pageSize);
+
+    OrderResponseList selUserReceivedInfoByUserId(Integer userId,Integer pageNumber,Integer pageSize);
+
+    OrderResponseList selectAllOrders(Short orderState,Integer pageNumber,Integer pageSize);
+
+    OrderResponseList selectAll(Short orderState,Integer pageNumber,Integer pageSize);
+
+    Integer cancleOrder(CancleOrderReuquest cancleOrderReuquest);
 }

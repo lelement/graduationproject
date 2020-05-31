@@ -2,8 +2,10 @@ package com.example.graduationproject.service;
 
 import com.example.graduationproject.pojo.User;
 import com.example.graduationproject.request.AddUserRequest;
-
-import java.util.List;
+import com.example.graduationproject.request.UpdateUserRequest;
+import com.example.graduationproject.response.LoginResponse;
+import com.example.graduationproject.response.UserResponse;
+import com.example.graduationproject.response.UserResponseList;
 
 /**
  * @Author:Fengxutong
@@ -11,17 +13,23 @@ import java.util.List;
  * @Description:小冯同学写点注释吧！
  */
 public interface UserService {
-    List<User> selectAll(Integer pageSize, Integer pageNumber, Integer mark);
+    Integer exist(Long phoneNumber);
 
     Integer addUser(AddUserRequest addUserRequest);
 
-    Integer addAdmin(AddUserRequest addUserRequest);
+    Integer delUser(Integer id);
 
-    Integer deleteById(Integer id);
+    Integer updUser(UpdateUserRequest user);
 
-    Integer deleteByIds(List<Integer> ids);
+    LoginResponse login(Long usernumber, String password);
 
-    Integer updateUser(User user);
+    UserResponseList selUser(Short mark,Integer pageNumber,Integer size);
 
-    Integer updateAdmin(User user);
+    User selUser(Integer userID);
+
+    UserResponseList sellectAllUser(Integer pageNumber, Integer pageSize);
+
+    UserResponseList selectUserByKeyword(String keyword, Integer pageNumber, Integer pageSize);
+
+    UserResponse getUserById(Integer userId);
 }

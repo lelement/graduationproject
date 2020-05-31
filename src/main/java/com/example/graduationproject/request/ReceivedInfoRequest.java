@@ -3,7 +3,9 @@ package com.example.graduationproject.request;
 import lombok.Data;
 
 /**
- * Created by lemon on 2020-01-29 15:22.
+ * @Author:Fengxutong
+ * @Date:2020/2/1
+ * @Description:小冯同学写点注释吧！
  */
 @Data
 public class ReceivedInfoRequest {
@@ -11,8 +13,7 @@ public class ReceivedInfoRequest {
 
     private String name;
 
-    private Long phone;
+    private Long phoneNumber;
 
     private String address;
-
 }

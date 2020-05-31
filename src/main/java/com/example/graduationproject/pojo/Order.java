@@ -16,7 +16,8 @@ public class Order {
     private Integer receivedInfoId;
 
     /**
-     * 0:未付款 1:已付款未发货  2:已发货  3:已收货 4:待评价 5：已评价  6：取消订单
+     * 0:未付款 1:已付款未发货  2:已发货  3:已收货
+
 
      */
     @Column(name = "order_state")
@@ -24,17 +25,21 @@ public class Order {
 
     @Column(name = "total_price")
     private Double totalPrice;
+
     /**
-     * 商品数量
+     * 要买几本书
      */
-    @Column(name = "order_number")
-    private Integer orderNumber;
+    @Column(name = "book_mount")
+    private Integer bookMount;
 
     @Column(name = "create_time")
     private Date createTime;
 
     @Column(name = "update_time")
     private Date updateTime;
+
+    @Column(name = "book_id")
+    private Integer bookId;
 
     /**
      * @return id
@@ -80,11 +85,11 @@ public class Order {
 
     /**
      * 获取0:未付款 1:已付款未发货  2:已发货  3:已收货
-1:true
+
 
      *
      * @return order_state - 0:未付款 1:已付款未发货  2:已发货  3:已收货
-1:true
+
 
      */
     public Short getOrderState() {
@@ -93,11 +98,11 @@ public class Order {
 
     /**
      * 设置0:未付款 1:已付款未发货  2:已发货  3:已收货
-1:true
+
 
      *
      * @param orderState 0:未付款 1:已付款未发货  2:已发货  3:已收货
-1:true
+
 
      */
     public void setOrderState(Short orderState) {
@@ -119,17 +124,21 @@ public class Order {
     }
 
     /**
-     * @return order_number
+     * 获取要买几本书
+     *
+     * @return book_mount - 要买几本书
      */
-    public Integer getOrderNumber() {
-        return orderNumber;
+    public Integer getBookMount() {
+        return bookMount;
     }
 
     /**
-     * @param orderNumber
+     * 设置要买几本书
+     *
+     * @param bookMount 要买几本书
      */
-    public void setOrderNumber(Integer orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setBookMount(Integer bookMount) {
+        this.bookMount = bookMount;
     }
 
     /**
@@ -158,5 +167,19 @@ public class Order {
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    /**
+     * @return book_id
+     */
+    public Integer getBookId() {
+        return bookId;
+    }
+
+    /**
+     * @param bookId
+     */
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 }

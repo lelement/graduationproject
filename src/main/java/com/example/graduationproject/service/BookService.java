@@ -1,7 +1,11 @@
 package com.example.graduationproject.service;
 
 import com.example.graduationproject.pojo.Book;
-import com.example.graduationproject.request.AddBookRequest;
+import com.example.graduationproject.request.*;
+import com.example.graduationproject.response.BookResponse;
+import com.example.graduationproject.response.BookResponseList;
+import io.swagger.models.auth.In;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -12,20 +16,11 @@ import java.util.List;
  */
 public interface BookService {
     /**
-     *
-     * @param kindId
      * @param addBookRequest
      * @return
      */
-    Integer addBook(Integer kindId,AddBookRequest addBookRequest);
+    Integer addBook( AddBookRequest addBookRequest);
 
-
-    /**
-     *  保 留
-     * @param books
-     * @return
-     */
-    Integer addBookList(List<Book> books);
     /**
      * 管理员
      * @param id
@@ -33,7 +28,7 @@ public interface BookService {
      */
     Integer delBook(Integer id);
 
-    Integer delBooks(List<Integer> ids);
+    Integer delBookList(List<Integer> ids);
 
     /**
      *
@@ -42,21 +37,21 @@ public interface BookService {
      */
     Integer updBook(Book book);
 
-    /**
-     * 管理员    保留
-     * @param mount
-     * @return
-     */
-    List<Book> selectBook(Integer mount);
 
     /**
      * 读者
-     * @param key
+     * @param
      * @return
      */
-    List<Book> selBook(String key, Integer pageNumber, Integer pageSize);
+    BookResponseList selBookByKeyWords(String keyWords,Integer pageSize,Integer pageNumber);
 
-    List<Book> selAllBook(Integer pageNumber, Integer pageSize);
+    BookResponseList selAllBook(Integer pageNumber,Integer size);
 
-    Integer selectsellBookNumber(Integer bookId);
+    BookResponseList selectBookByKindId(Integer bookKindId,Integer pageNumber,Integer size);
+
+    Book selectBookById(Integer id);
+
+    BookResponseList selectBookMount(Integer bookMount,Integer pageNumber,Integer size);
+
+    BookResponseList getUserBook(Integer pageNumber, Integer pageSize);
 }

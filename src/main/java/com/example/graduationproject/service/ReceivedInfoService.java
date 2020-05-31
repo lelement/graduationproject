@@ -2,9 +2,10 @@ package com.example.graduationproject.service;
 
 import com.example.graduationproject.pojo.ReceivedInfo;
 import com.example.graduationproject.request.AddReceivedInfoRequest;
-import com.example.graduationproject.response.ReceivedInfoResponse;
-
-import java.util.List;
+import com.example.graduationproject.request.DeleteReceivedInfoRequest;
+import com.example.graduationproject.request.SelectReceivedInfoRequest;
+import com.example.graduationproject.request.UpdateReceivedInfoRequest;
+import com.example.graduationproject.response.ReceivedInfoResponseList;
 
 /**
  * Created by lemon on 2020-01-31 0:56.
@@ -12,11 +13,11 @@ import java.util.List;
 public interface ReceivedInfoService {
     Integer add(AddReceivedInfoRequest addReceivedInfoRequest);
 
-    List<ReceivedInfo> selectByUserId(Integer userId);
-
     ReceivedInfo selectById(Integer id);
 
-    Integer update(ReceivedInfo receivedInfo);
+    Integer update(UpdateReceivedInfoRequest updateReceivedInfoRequest);
 
-    Integer delete(Integer id);
+    Integer delete(DeleteReceivedInfoRequest deleteReceivedInfoRequest);
+
+    ReceivedInfoResponseList selectByUserId(Integer userId,Integer pageNumber,Integer size);
 }

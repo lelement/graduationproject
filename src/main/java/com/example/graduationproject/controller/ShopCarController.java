@@ -1,8 +1,12 @@
 package com.example.graduationproject.controller;
 
 import com.example.graduationproject.common.SzpJsonResult;
-import com.example.graduationproject.pojo.ShopCar;
+import com.example.graduationproject.request.*;
+import com.example.graduationproject.response.ShopCarResponse;
+import com.example.graduationproject.response.ShopCarResponseList;
 import com.example.graduationproject.service.ShopCarService;
+import com.example.graduationproject.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,24 +19,28 @@ import org.springframework.web.bind.annotation.*;
 public class ShopCarController {
     @Autowired
     ShopCarService shopCarService;
+    @Autowired
+    UserService userService;
 
-    @PostMapping("add/shopCar/by/json")
-    public Integer addShopCar(ShopCar shopCar){
-        return shopCarService.addShopCar(shopCar);
+    @ApiOperation("添加购物车")
+    @PostMapping("add/shopCar")
+    public SzpJsonResult<Integer> addShopCar(@RequestBody AddShopCarRequest addShopCarRequest){
+        return SzpJsonResult.ok(shopCarService.addShopCar(addShopCarRequest));
     }
 
-    @DeleteMapping("delete/shopCar/by/json")
-    public Integer delShopCar(Integer bookId){
-        return shopCarService.delShopCar(bookId);
+    @DeleteMapping("delete/shopCar")
+    public SzpJsonResult<Integer> delShopCar(@RequestBody DeleteShopCarByIdsRequest deleteShopCarByIdsRequest){
+        return SzpJsonResult.ok(shopCarService.delShopCar(deleteShopCarByIdsRequest));
     }
 
-    @PutMapping("update/shopCar/by/json")
-    public Integer updShopCar(ShopCar shopCar){
-        return shopCarService.updShopCar(shopCar);
+    @PutMapping("update/shopCar")
+    public SzpJsonResult<Integer> updShopCar(@RequestBody ShopCarRequestList shopCarRequestList){
+        return SzpJsonResult.ok(shopCarService.updShopCar(shopCarRequestList));
     }
 
-    @GetMapping("select/shopCar/by/json")
-    public SzpJsonResult<ShopCar> selShopCar(Integer userId){
-        return SzpJsonResult.ok(shopCarService.selShopCar(userId));
+    @GetMapping("select/shopCar")
+    public SzpJsonResult<ShopCarResponseList> selShopCar(@RequestParam(value = "userId") Integer userId,@RequestParam(value = "pageNumber") Integer pageNumber,@RequestParam(value = "pageSize") Integer pageSize){
+        return SzpJsonResult.ok(shopCarService.selShopCar(userId,pageNumber,pageSize));
     }
 }
+

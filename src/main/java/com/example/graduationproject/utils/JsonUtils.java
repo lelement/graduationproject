@@ -1,10 +1,12 @@
 package com.example.graduationproject.utils;
 
 
+import com.example.graduationproject.pojo.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,5 +71,12 @@ public class JsonUtils {
         return null;
     }
 
-
+    public static void main(String[] args) {
+        User user=new User();
+        user.setNickName("asd");
+        user.setCreateTime(new Date());
+        System.out.println(user);
+        String objectToJson = JsonUtils.objectToJson(user);
+        System.out.println(objectToJson);
+    }
 }

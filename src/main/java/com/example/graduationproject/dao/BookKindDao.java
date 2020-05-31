@@ -2,7 +2,6 @@ package com.example.graduationproject.dao;
 
 import com.example.graduationproject.mapper.BookKindMapper;
 import com.example.graduationproject.mapper.BookMapper;
-import com.example.graduationproject.pojo.Book;
 import com.example.graduationproject.pojo.BookKind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -35,7 +34,9 @@ public class BookKindDao {
        return bookKindMapper.updateByPrimaryKeySelective(bookKind);
     }
 
-
+    public BookKind slectTypeById(Integer id){
+        return bookKindMapper.selectByPrimaryKey(id);
+    }
     public List<BookKind> selectAll() {
         return bookKindMapper.selectAll();
     }

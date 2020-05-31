@@ -6,7 +6,7 @@
 <generatorConfiguration>
     <!--连接数据库的jar-->
     <classPathEntry
-            location="C:\Users\Administrator\.m2\repository\mysql\mysql-connector-java\5.1.43\mysql-connector-java-5.1.43.jar"/>
+            location="C:\Users\dell\.m2\repository\mysql\mysql-connector-java\5.1.34\mysql-connector-java-5.1.34.jar"/>
     <!--    <classPathEntry-->
     <!--            location="D://90 Workspace/maven/stone/mysql/mysql-connector-java/5.1.43/mysql-connector-java-5.1.43.jar"/>-->
 
@@ -74,7 +74,7 @@
         </javaClientGenerator>
         <!-- 指定数据库表 -->
 
-        <!--<table tableName="t_user" domainObjectName="User">
+        <table tableName="t_user" domainObjectName="User">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="t_book" domainObjectName="Book">
@@ -82,28 +82,19 @@
         </table>
         <table tableName="t_book_kind" domainObjectName="BookKind">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
         <table tableName="t_comment" domainObjectName="Comment">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <!--<table tableName="t_order" domainObjectName="Order">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="t_order_item" domainObjectName="OrderItem">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="t_order_ship" domainObjectName="OrderShip">
+        <table tableName="t_order" domainObjectName="Order">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="t_shop_car" domainObjectName="ShopCar">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="user_order_comment_ship" domainObjectName="UserOrderCommentShip">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
         <table tableName="t_received_info" domainObjectName="ReceivedInfo">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
         <!-- 有些表的字段需要指定java类型
          <table schema="" tableName="">
             <columnOverride column="" javaType="" />
